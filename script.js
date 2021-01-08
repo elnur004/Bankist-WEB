@@ -5,6 +5,7 @@ const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
+const navLinks = document.querySelector('.nav__links');
 const section1 = document.querySelector('#section--1');
 
 ///////////////////////////////////////
@@ -81,7 +82,7 @@ btnScrollTo.addEventListener('click', function (e) {
 // );
 
 // Event delegation is a better way
-document.querySelector('.nav__links').addEventListener('click', el => {
+navLinks.addEventListener('click', el => {
   el.preventDefault();
 
   // Matching strategy (check target element's className)
@@ -90,4 +91,39 @@ document.querySelector('.nav__links').addEventListener('click', el => {
     const id = el.target.getAttribute('href');
     document.querySelector(id).scrollIntoView({ behavior: 'smooth' });
   }
+});
+
+///////////////////////////////////
+// Tabbed Component
+
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+
+// Adding on each element a ListenerFunction is BAD PRACTICE!!!!
+// tabs.forEach(el => el.addEventListener('click', () => console.log('TAB')));
+
+// Using an Event delegation is a better way instead
+tabsContainer.addEventListener('click', el => {
+  const clicked = el.target.closest('.operations__tab');
+
+  // Traditional way
+  // if (clicked) {
+  //   clicked.classList.add('operations__tab--active');
+  // }
+
+  // Guard clause -->  Modern way
+  if (!clicked) return;
+
+  // First remove all active classes from tabs and contents area
+  tabs.forEach(el => el.classList.remove('operations__tab--active'));
+  tabsContent.forEach(e => e.classList.remove('operations__content--active'));
+
+  // Activate tab
+  clicked.classList.add('operations__tab--active');
+
+  // Activate content area
+  document
+    .querySelector(`.operations__content--${clicked.dataset.tab}`)
+    .classList.add('operations__content--active');
 });
