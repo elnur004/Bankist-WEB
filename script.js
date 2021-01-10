@@ -7,6 +7,10 @@ const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const navLinks = document.querySelector('.nav__links');
 const section1 = document.querySelector('#section--1');
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
+const nav = document.querySelector('.nav');
 
 ///////////////////////////////////////
 // Modal window
@@ -96,10 +100,6 @@ navLinks.addEventListener('click', el => {
 ///////////////////////////////////
 // Tabbed Component
 
-const tabs = document.querySelectorAll('.operations__tab');
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
-
 // Adding on each element a ListenerFunction is BAD PRACTICE!!!!
 // tabs.forEach(el => el.addEventListener('click', () => console.log('TAB')));
 
@@ -127,3 +127,26 @@ tabsContainer.addEventListener('click', el => {
     .querySelector(`.operations__content--${clicked.dataset.tab}`)
     .classList.add('operations__content--active');
 });
+
+///////////////////////////////
+// Menu fade animation
+
+const fadeAnimation = function (e) {
+  console.log(this);
+
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if (el !== link) el.style.opacity = this;
+      logo.style.opacity = this;
+    });
+  }
+};
+
+// Passing 'argument' into handler
+nav.addEventListener('mouseover', fadeAnimation.bind(0.5));
+
+nav.addEventListener('mouseout', fadeAnimation.bind(1));
