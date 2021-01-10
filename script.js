@@ -132,8 +132,6 @@ tabsContainer.addEventListener('click', el => {
 // Menu fade animation
 
 const fadeAnimation = function (e) {
-  console.log(this);
-
   if (e.target.classList.contains('nav__link')) {
     const link = e.target;
     const siblings = link.closest('.nav').querySelectorAll('.nav__link');
@@ -150,3 +148,18 @@ const fadeAnimation = function (e) {
 nav.addEventListener('mouseover', fadeAnimation.bind(0.5));
 
 nav.addEventListener('mouseout', fadeAnimation.bind(1));
+
+/////////////////////////////
+// Sticky navigation
+
+// This is bad way for performance. Especially on an older mobilephones (smartphones).
+// Because 'scroll' event fires all the time no matter how small the change is.
+const initialCoords = section1.getBoundingClientRect();
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > initialCoords.top) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+});
