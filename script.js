@@ -154,12 +154,53 @@ nav.addEventListener('mouseout', fadeAnimation.bind(1));
 
 // This is bad way for performance. Especially on an older mobilephones (smartphones).
 // Because 'scroll' event fires all the time no matter how small the change is.
-const initialCoords = section1.getBoundingClientRect();
+// const initialCoords = section1.getBoundingClientRect();
+// console.log(initialCoords);
+// console.log(window.scrollY);
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > initialCoords.top) {
+// window.addEventListener('scroll', () => {
+//   if (window.scrollY > initialCoords.top) {
+//     nav.classList.add('sticky');
+//   } else {
+//     nav.classList.remove('sticky');
+//   }
+// });
+
+// Better way Sticky navigation: Intersection Observer API
+// const obsCallback = function (entries, options) {
+//   entries.forEach(entry => {
+//     console.log(entry);
+//   });
+// };
+
+// const obsOptions = {
+//   root: null, // either a device's veiwport(null) or specified element
+//   threshold: [0, 0.2],
+// };
+
+// const observer = new IntersectionObserver(obsCallback, obsOptions);
+// observer.observe(section1); // 'section1' is a target element
+
+const header = document.querySelector('.header');
+
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries; // entries[0];
+
+  if (!entry.isIntersecting) {
     nav.classList.add('sticky');
   } else {
     nav.classList.remove('sticky');
   }
-});
+};
+
+const headerOptions = {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, headerOptions);
+
+headerObserver.observe(header);
