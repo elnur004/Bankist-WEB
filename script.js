@@ -314,7 +314,15 @@ const slider = function () {
     activateDot(curSlide);
   };
 
+  // Function for the page starts at the top after reloading
+  const starTop = function () {
+    window.onbeforeunload = function () {
+      window.scrollTo(0, 0);
+    };
+  };
+
   const init = function () {
+    starTop();
     createDots();
     activateDot(0);
     goToSlide(0);
