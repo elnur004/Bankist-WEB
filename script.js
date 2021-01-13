@@ -11,6 +11,10 @@ const tabs = document.querySelectorAll('.operations__tab');
 const tabsContainer = document.querySelector('.operations__tab-container');
 const tabsContent = document.querySelectorAll('.operations__content');
 const nav = document.querySelector('.nav');
+const slides = document.querySelectorAll('.slide');
+const btnRight = document.querySelector('.slider__btn--right');
+const btnLeft = document.querySelector('.slider__btn--left');
+const dots = document.querySelector('.dots');
 
 ///////////////////////////////////////
 // Modal window
@@ -258,10 +262,6 @@ imgTargets.forEach(img => observerImage.observe(img));
 
 ////////////////////////////////
 // Sliders
-const slides = document.querySelectorAll('.slide');
-const btnRight = document.querySelector('.slider__btn--right');
-const btnLeft = document.querySelector('.slider__btn--left');
-const dots = document.querySelector('.dots');
 
 let curSlide = 0;
 const maxSlide = slides.length;
@@ -274,7 +274,6 @@ const createDots = function () {
     )
   );
 };
-createDots();
 
 const activateDot = function (slide) {
   document
@@ -285,14 +284,12 @@ const activateDot = function (slide) {
     .querySelector(`.dots__dot[data-slide="${slide}"]`)
     .classList.add('dots__dot--active');
 };
-activateDot(0);
 
 const goToSlide = function (slide) {
   slides.forEach((s, i) => {
     s.style.transform = `translateX(${100 * (i - slide)}%)`;
   });
 };
-goToSlide(0);
 
 // Next Slide
 const nextSlide = function () {
@@ -315,6 +312,13 @@ const previousSlide = function () {
   goToSlide(curSlide);
   activateDot(curSlide);
 };
+
+const init = function () {
+  createDots();
+  activateDot(0);
+  goToSlide(0);
+};
+init();
 
 // Event Handlers
 btnLeft.addEventListener('click', previousSlide);
